@@ -286,3 +286,12 @@ async def eth_getFilterChanges(filter_id):
 @async_serialize
 async def eth_getLogs(filter_obj):
     return await thor.get_logs(filter_obj.get("address", None), input_log_filter_formatter(filter_obj))
+
+
+@method
+async def eth_gasPrice():
+    return "0x4E20"
+
+@method
+async def eth_chainId():
+    return "0x27"

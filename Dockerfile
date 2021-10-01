@@ -34,13 +34,14 @@ RUN bash -c '[[ $(which web3-gear) == "/usr/local/bin/web3-gear" ]] || exit 1'
 
 # Entry point
 COPY docker-entrypoint.sh /usr/local/bin/
+COPY keystore /usr/local/bin/
 RUN chmod 777 /usr/local/bin/docker-entrypoint.sh
 
 # Backwards compatibility
 RUN ln -s usr/local/bin/docker-entrypoint.sh /entrypoint.sh
 
 # See docker-entrypoint.sh for details
-ENTRYPOINT ["docker-entrypoint.sh"]
+# ENTRYPOINT ["docker-entrypoint.sh"]
 
 # Ports that should be exposed
 EXPOSE 8545/tcp

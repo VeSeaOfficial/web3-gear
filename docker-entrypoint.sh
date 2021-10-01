@@ -41,4 +41,4 @@ fi
 
 echo "Using thor point: ${THOR_PROTOCOL}://${THOR_IP}:${THOR_PORT}"
 
-LC_ALL="C.UTF-8" LANG="C.UTF-8" web3-gear --host ${LISTEN_HOST} --port ${LISTEN_PORT} --endpoint "${THOR_PROTOCOL}://${THOR_IP}:${THOR_PORT}"
+LC_ALL="C.UTF-8" LANG="C.UTF-8" web3-gear --host ${LISTEN_HOST} --port ${LISTEN_PORT} --endpoint "${THOR_PROTOCOL}://${THOR_IP}:${THOR_PORT}" --log true --debug true --keystore /usr/local/bin/keystore --passcode "${KEYSTORE_PASSCODE}"
