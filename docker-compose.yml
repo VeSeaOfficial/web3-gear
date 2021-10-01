@@ -1,0 +1,16 @@
+version: '3.5'
+
+services:
+  proxy:
+    build:
+        context: .
+    image: vechain/web3-gear
+    command: 'docker-entrypoint.sh'
+    ports:
+      - "8545:8545"
+    environment:
+      - THOR_PROTOCOL=https
+      - THOR_IP=sync-testnet.vechain.org
+      # - THOR_IP=testnet.veblocks.net
+      - THOR_PORT=443
+      - KEYSTORE_PASSCODE=*******

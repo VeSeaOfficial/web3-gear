@@ -110,3 +110,5 @@ fabric.properties
 
 # VS Code
 .vscode/
+
+keystore

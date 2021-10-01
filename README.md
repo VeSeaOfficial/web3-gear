@@ -121,3 +121,69 @@ There are some projects based on truffle, can use them for testing:
 - [Crowdsale Contracts](https://github.com/vechain/crowdsale-contracts).
 - [Token Distribution](https://github.com/libotony/token-distribution).
 - [Solidity Idiosyncrasies](https://github.com/miguelmota/solidity-idiosyncrasies).
+
+### Work with HardHat
+
+Make sure you have docker-compose installed.
+
+Then you have to get key store from Sync inspector so smart contracts will be deployed from your Sync account.
+
+Make sure you have correct environmental variables set in `docker-compose.yml` file
+
+Run web3-gear in Docker container:
+
+```
+docker-compose up
+```
+
+Now in your HardHat project create a file `scripts/deploy.js`
+
+and place below code in it:
+
+```js
+const hre = require('hardhat');
+const {ethers} = require('hardhat');
+
+const getContractAddress = async (contract) => {
+  // We cannot use simple address when we use VeChain
+  // return contract.address;
+  let receipt = await contract.deployTransaction.wait();
+  return receipt.contractAddress;
+};
+
+async function main() {
+  const Contract = await ethers.getContractFactory('YourContrat');
+  const contract = await Contract.deploy();
+  let contractAddress = await getContractAddress(contract);
+  console.log('Deployed to:', contractAddress);
+}
+
+// We recommend this pattern to be able to use async/await everywhere
+// and properly handle errors.
+main()
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+```
+
+Now you have to add testnet to HardHat configuration. Open hardhat.config.js and add:
+
+```js
+networks: {
+    ///
+    testnet: {
+      url: 'http://127.0.0.1:8545',
+    },
+    ////
+  },
+```
+
+Then you can run:
+
+```bash
+npx hardhat run scripts/deploy.js --network testnet
+```
+
+This should deploy your smart contract `YourContract` to testnet using web3-gear proxy
