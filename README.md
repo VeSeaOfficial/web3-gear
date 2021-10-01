@@ -1,6 +1,6 @@
 # Web3-gear &nbsp;&nbsp; [![Gitter](https://badges.gitter.im/vechain/thor.svg)](https://gitter.im/vechain/thor?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-Proxy [Thor](https://github.com/vechain/thor)'s RESTful API to Eth JSON-RPC, to support Remix, Truffle and more (You should give priority to using Thor's RESTful API).
+Proxy [Thor](https://github.com/vechain/thor)'s RESTful API to Eth JSON-RPC, to support Remix, Truffle, HardHat and more (You should give priority to using Thor's RESTful API).
 
 Working with [Thor Builtins](https://github.com/vechain/thor-builtins) will make Web3-Gear more usable.
 
@@ -126,15 +126,19 @@ There are some projects based on truffle, can use them for testing:
 
 Make sure you have docker-compose installed.
 
+First thing you will need to do is to create a project using HardHat. You can read more about it here: https://hardhat.org/getting-started/ 
+
 Then you have to get key store from Sync inspector so smart contracts will be deployed from your Sync account.
 
-Make sure you have correct environmental variables set in `docker-compose.yml` file
+Make sure you have correct environmental variables set in `docker-compose.yml` file. Update `THOR_IP` with the host name of the node you want to use ie. `sync-testnet.vechain.org` which will connect to testnet hosted by VeChain.org. It is also important to set `KEYSTORE_PASSCODE` to the password you used in Sync while exporting account.
 
 Run web3-gear in Docker container:
 
 ```
 docker-compose up
 ```
+
+This will build a Docker image locally and start web3-gear.
 
 Now in your HardHat project create a file `scripts/deploy.js`
 
@@ -168,13 +172,15 @@ main()
   });
 ```
 
+Here we assume that you have a smart contract called YourContract.sol in contracts directory.
+
 Now you have to add testnet to HardHat configuration. Open hardhat.config.js and add:
 
 ```js
 networks: {
     ///
     testnet: {
-      url: 'http://127.0.0.1:8545',
+      url: 'http://127.0.0.1:8545', // This url points to Docker container
     },
     ////
   },
